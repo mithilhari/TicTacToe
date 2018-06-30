@@ -1,2 +1,2 @@
 # TicTacToe
-A* implementation for TicTacToe
+MinMax AI implementation for TicTacToe
