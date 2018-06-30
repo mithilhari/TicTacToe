@@ -29,7 +29,6 @@ char getTile(int player) {
 void printBoard() {
     for (int i = 0; i < 7; i+=3)
         printf(" %c | %c | %c\n--- --- ---\n", getTile(BOARD[i]), getTile(BOARD[i+1]), getTile(BOARD[i+2]));
-
 }
 
 bool invalidMove(int move) { 
