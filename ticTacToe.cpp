@@ -9,7 +9,6 @@ const int COMPUTER = 1;
 
 int BOARD[9] = {2, 2, 2, 2, 2, 2, 2, 2, 2}; // 0 1 2 is first row, 3 4 5 second row and 6 7 8 is third row
 
-
 int gameStatus() {
     int patterns[8][3] = {{0,1,2},{0,3,6},{0,4,8},{1,4,7},{2,5,8},{2,4,6},{3,4,5},{6,7,8}};
     
