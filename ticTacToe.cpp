@@ -32,7 +32,7 @@ void printBoard() {
 
 bool invalidMove(int move) { 
     if (move > 9 || move < 1 || BOARD[move-1] != EMPTY) {
-       cout << "\nInvalid move!\n";
+       cout << "\nInvalid move!\n\n";
        return true;
     }
 
