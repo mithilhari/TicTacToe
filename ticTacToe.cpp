@@ -85,7 +85,7 @@ pair<int,int> minMax(int depth, int turn, int alpha, int beta) {
                 
                 //alpha = max(alpha, bestScore);
                 
-                if (beta     <= alpha)
+                if (beta <= alpha)
                     return pair<int,int>(bestScore, bestMove);
             }
             else { // Player minimizer
