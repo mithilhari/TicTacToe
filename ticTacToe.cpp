@@ -83,7 +83,7 @@ pair<int,int> minMax(int depth, int turn, int alpha, int beta) {
                     bestMove = child;
                 }       
                 
-                //alpha = max(alpha, bestScore);
+                alpha = max(alpha, bestScore);
                 
                 if (beta <= alpha)
                     return pair<int,int>(bestScore, bestMove);
