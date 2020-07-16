@@ -26,11 +26,8 @@ char getTile(int player) {
 }
 
 void printBoard() {
-    for (int i = 0; i < 9; ++i) {
-        printf(" %c |", getTile(BOARD[i]));
-        if ((i+1) % 3 == 0)
-            printf("\n--- --- ---\n");
-    }
+    for (int i = 0; i < 7; i+=3)
+        printf(" %c | %c | %c\n--- --- ---\n", getTile(BOARD[i]), getTile(BOARD[i+1]), getTile(BOARD[i+2]));
 }
 
 bool invalidMove(int move) { 
@@ -57,11 +54,11 @@ vector<int> getChildren() {
     return children;
 }
 
-pair<int,int> minMax(int depth, int turn, int alpha, int beta) {
+pair<int,int> minMax(int depth, int turn) {
     vector<int> children = getChildren(); // Available moves
     
     // Initialize best score to "+inf"/"-inf"
-    int bestScore = (turn == COMPUTER) ? numeric_limits<int>::min() : numeric_limits<int>::max();
+    int bestScore = (turn == 1) ? numeric_limits<int>::min() : numeric_limits<int>::max();
     int bestMove = -1;
     
     int winner = gameStatus(); // 0, 1 or -1 if no winner
@@ -76,30 +73,18 @@ pair<int,int> minMax(int depth, int turn, int alpha, int beta) {
             BOARD[child] = turn; 
 
             if (turn == COMPUTER) { // Computer Maximizer
-                int currentScore = minMax(depth+1, !turn, alpha, beta).first;
-                
+                int currentScore = minMax(depth+1, !turn).first;
                 if (currentScore > bestScore) {
                     bestScore = currentScore;
                     bestMove = child;
-                }       
-                
-                alpha = max(alpha, bestScore);
-                
-                if (beta <= alpha)
-                    return pair<int,int>(bestScore, bestMove);
+                }
             }
             else { // Player minimizer
-                int currentScore = minMax(depth+1, !turn, alpha, beta).first;
-                
+                int currentScore = minMax(depth+1, !turn).first;
                 if (currentScore < bestScore) {
                     bestScore = currentScore;
                     bestMove = child;
                 }
-
-                beta = min(beta, bestScore);
-
-                if (beta <= alpha)
-                    return pair<int,int>(bestScore, bestMove);
             }
 
             BOARD[child] = EMPTY; // Undo move
@@ -113,11 +98,8 @@ int main() {
     int playerMove, computerMove;
     cout << "Welcome to Tic Tac Toe! Enter your moves according to the board shown below.\n\n";
 
-    for (int i = 0; i < 9; ++i) {
-        printf(" %d |", i+1);
-        if ((i+1) % 3 == 0)
-            printf("\n--- --- ---\n");
-    }   
+    for (int i = 1; i < 8; i+=3)
+        printf(" %d | %d | %d\n--- --- ---\n", i, i+1, i+2);
 
     cout << "\nStart the game!\n\n"; 
     printBoard();
@@ -126,17 +108,11 @@ int main() {
         cout << "Enter move (1-9): ";
         cin >> playerMove;
         
-        if (cin.fail()) {
-            cout << "\nError. Enter an integer!\n\n";
-            cin.clear();
-            cin.ignore(256, '\n');
-            continue;
-        }
         if (invalidMove(playerMove))
             continue;
         
         BOARD[playerMove-1] = HUMAN;
-        computerMove = minMax(1, COMPUTER, numeric_limits<int>::min(), numeric_limits<int>::max()).second;
+        computerMove = minMax(1, 1).second;
         BOARD[computerMove] = COMPUTER;
         
         printBoard();
